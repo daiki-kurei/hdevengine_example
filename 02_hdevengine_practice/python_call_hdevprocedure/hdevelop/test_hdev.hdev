@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<procedure name="main">
+<interface/>
+<body>
+<c>*メイン関数</c>
+<l>main_processing (image, image_result, center_xld, center_point)</l>
+<c></c>
+<c></c>
+</body>
+<docu id="main">
+<parameters/>
+</docu>
+</procedure>
+<procedure name="read_image_local">
+<interface>
+<oo>
+<par name="image" base_type="iconic" dimension="0"/>
+</oo>
+<ic>
+<par name="image_path" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>read_image (image, image_path)</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="read_image_local">
+<parameters>
+<parameter id="image"/>
+<parameter id="image_path"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="setup_path">
+<interface>
+<oc>
+<par name="image_path" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>image_path := './image/cardboard_boxes_01.png'</l>
+<l>return ()</l>
+</body>
+<docu id="setup_path">
+<parameters>
+<parameter id="image_path"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="main_processing">
+<interface>
+<oo>
+<par name="image" base_type="iconic" dimension="0"/>
+<par name="image_result" base_type="iconic" dimension="0"/>
+<par name="center_xld" base_type="iconic" dimension="0"/>
+</oo>
+<oc>
+<par name="center_point" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>*画像パスの設定</c>
+<l>setup_path (image_path)</l>
+<c></c>
+<c>*画像の読み込み</c>
+<l>read_image_local (image, image_path)</l>
+<c></c>
+<c>*二値化処理</c>
+<l>threshold_image (image, threshold_region)</l>
+<c></c>
+<c>*四角形領域の抽出</c>
+<l>find_rectange_region (threshold_region, rectangle_region)</l>
+<c></c>
+<c>*四角形領域部分の入力画像を塗りつぶす</c>
+<l>paint_image (image, rectangle_region, image_result)</l>
+<c></c>
+<c>*四角形領域部分の中心座標を算出</c>
+<l>get_region_center (image_result, rectangle_region, center_xld, center_point)</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="main_processing">
+<parameters>
+<parameter id="center_point"/>
+<parameter id="center_xld"/>
+<parameter id="image"/>
+<parameter id="image_result"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="threshold_image">
+<interface>
+<io>
+<par name="image" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="threshold_region" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<l>threshold (image, threshold_region, 69, 255)</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="threshold_image">
+<parameters>
+<parameter id="image"/>
+<parameter id="threshold_region"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="find_rectange_region">
+<interface>
+<io>
+<par name="region" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="rectangle_region" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<l>connection (region, ConnectedRegions)</l>
+<l>select_shape (ConnectedRegions, rectangle_region, ['rectangularity','area'], 'and', [0.93438,149538], [1,200000])</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="find_rectange_region">
+<parameters>
+<parameter id="rectangle_region"/>
+<parameter id="region"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="paint_image">
+<interface>
+<io>
+<par name="image" base_type="iconic" dimension="0"/>
+<par name="region" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="image_result" base_type="iconic" dimension="0"/>
+</oo>
+</interface>
+<body>
+<l>paint_region (region, image, image_result, 255, 'fill')</l>
+<l>return ()</l>
+</body>
+<docu id="paint_image">
+<parameters>
+<parameter id="image"/>
+<parameter id="image_result"/>
+<parameter id="region"/>
+</parameters>
+</docu>
+</procedure>
+<procedure name="get_region_center">
+<interface>
+<io>
+<par name="image" base_type="iconic" dimension="0"/>
+<par name="region" base_type="iconic" dimension="0"/>
+</io>
+<oo>
+<par name="center_xld" base_type="iconic" dimension="0"/>
+</oo>
+<oc>
+<par name="region_center" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>area_center (region, Area, Row, Column)</l>
+<l>region_center := [Row, Column]</l>
+<c></c>
+<l>gen_cross_contour_xld (center_xld, Row, Column, 60, 0.785398)</l>
+<c></c>
+<l>return ()</l>
+</body>
+<docu id="get_region_center">
+<parameters>
+<parameter id="center_xld"/>
+<parameter id="image"/>
+<parameter id="region"/>
+<parameter id="region_center"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

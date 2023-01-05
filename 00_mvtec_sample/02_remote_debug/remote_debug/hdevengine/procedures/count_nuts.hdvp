@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<procedure name="count_nuts">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+</io>
+<oc>
+<par name="NumObjects" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<c>* Count number of objects in image</c>
+<c></c>
+<l>threshold (Image, Dark, 0, 96)</l>
+<c></c>
+<l>connection (Dark, ConnectedRegions)</l>
+<c></c>
+<l>count_obj (ConnectedRegions, NumObjects)</l>
+<c></c>
+<l>return ()</l>
+<c></c>
+</body>
+<docu id="count_nuts">
+<parameters>
+<parameter id="Image"/>
+<parameter id="NumObjects"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

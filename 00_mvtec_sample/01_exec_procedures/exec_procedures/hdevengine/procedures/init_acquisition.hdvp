@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<procedure name="init_acquisition">
+<interface>
+<oc>
+<par name="AcqHandle" base_type="ctrl" dimension="0"/>
+<par name="Width" base_type="ctrl" dimension="0"/>
+<par name="Height" base_type="ctrl" dimension="0"/>
+</oc>
+</interface>
+<body>
+<l>open_framegrabber ('File', 1, 1, 0, 0, 0, 0, 'default', -1, 'default', -1, 'default', 'fin.seq', 'default', -1, -1, AcqHandle)</l>
+<l>grab_image (Image, AcqHandle)</l>
+<l>get_image_pointer1 (Image, Pointer, Type, Width, Height)</l>
+<l>return ()</l>
+</body>
+<docu id="init_acquisition">
+<short lang="en_US">initializes image acquisition</short>
+<parameters>
+<parameter id="AcqHandle"/>
+<parameter id="Height"/>
+<parameter id="Width"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>

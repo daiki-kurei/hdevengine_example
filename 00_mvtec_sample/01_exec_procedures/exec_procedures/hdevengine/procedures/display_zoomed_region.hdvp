@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hdevelop file_version="1.2" halcon_version="22.11.1.0">
+<procedure name="display_zoomed_region">
+<interface>
+<io>
+<par name="Image" base_type="iconic" dimension="0"/>
+<par name="Region" base_type="iconic" dimension="0"/>
+</io>
+<ic>
+<par name="ZoomScale" base_type="ctrl" dimension="0"/>
+<par name="Margin" base_type="ctrl" dimension="0"/>
+</ic>
+</interface>
+<body>
+<l>area_center (Region, Area, CenterRow, CenterCol)</l>
+<l>smallest_rectangle1 (Region, Row1, Col1, Row2, Col2)</l>
+<l>RegionHeight := Row2 - Row1</l>
+<l>RegionWidth := Col2 - Col1</l>
+<l>Width := (RegionWidth + 2 * Margin) * ZoomScale</l>
+<l>Height := (RegionHeight + 2 * Margin) * ZoomScale</l>
+<l>dev_open_window (CenterRow / 2, CenterCol / 2 + 30, Width, Height, 'black', ZoomWinID)</l>
+<l>dev_set_part (Row1 - Margin, Col1 - Margin, Row2 + Margin, Col2 + Margin)</l>
+<l>dev_display (Image)</l>
+<l>dev_set_color ('red')</l>
+<l>dev_display (Region)</l>
+<l>wait_seconds (3)</l>
+<l>dev_close_window ()</l>
+<l>return ()</l>
+</body>
+<docu id="display_zoomed_region">
+<short lang="en_US">displays region in a zoomed part of the image</short>
+<parameters>
+<parameter id="Image"/>
+<parameter id="Margin"/>
+<parameter id="Region"/>
+<parameter id="ZoomScale"/>
+</parameters>
+</docu>
+</procedure>
+</hdevelop>
